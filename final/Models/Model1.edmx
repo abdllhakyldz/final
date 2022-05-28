@@ -1,0 +1,204 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="DB02Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Dosya">
+          <Key>
+            <PropertyRef Name="dosyaId" />
+          </Key>
+          <Property Name="dosyaId" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="dosyaAdı" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="dosyaIcerigi" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="dosyaTuru" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Kayit">
+          <Key>
+            <PropertyRef Name="kayitId" />
+          </Key>
+          <Property Name="kayitId" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="kayitKulId" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="kayitDosyaId" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Kullanici">
+          <Key>
+            <PropertyRef Name="KulId" />
+          </Key>
+          <Property Name="KulId" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="KulAdSoyad" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="KulMail" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="KulSifre" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="KulDogTarihi" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Kayit_ToDosya">
+          <End Role="Dosya" Type="Self.Dosya" Multiplicity="1" />
+          <End Role="Kayit" Type="Self.Kayit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Dosya">
+              <PropertyRef Name="dosyaId" />
+            </Principal>
+            <Dependent Role="Kayit">
+              <PropertyRef Name="kayitDosyaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Kayit_ToKullanici">
+          <End Role="Kullanici" Type="Self.Kullanici" Multiplicity="1" />
+          <End Role="Kayit" Type="Self.Kayit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kullanici">
+              <PropertyRef Name="KulId" />
+            </Principal>
+            <Dependent Role="Kayit">
+              <PropertyRef Name="kayitKulId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DB02ModelStoreContainer">
+          <EntitySet Name="Dosya" EntityType="Self.Dosya" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Kayit" EntityType="Self.Kayit" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Kullanici" EntityType="Self.Kullanici" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Kayit_ToDosya" Association="Self.FK_Kayit_ToDosya">
+            <End Role="Dosya" EntitySet="Dosya" />
+            <End Role="Kayit" EntitySet="Kayit" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Kayit_ToKullanici" Association="Self.FK_Kayit_ToKullanici">
+            <End Role="Kullanici" EntitySet="Kullanici" />
+            <End Role="Kayit" EntitySet="Kayit" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DB02Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Dosya">
+          <Key>
+            <PropertyRef Name="dosyaId" />
+          </Key>
+          <Property Name="dosyaId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="dosyaAdı" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="dosyaIcerigi" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="dosyaTuru" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Kayit" Relationship="Self.FK_Kayit_ToDosya" FromRole="Dosya" ToRole="Kayit" />
+        </EntityType>
+        <EntityType Name="Kayit">
+          <Key>
+            <PropertyRef Name="kayitId" />
+          </Key>
+          <Property Name="kayitId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="kayitKulId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="kayitDosyaId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Dosya" Relationship="Self.FK_Kayit_ToDosya" FromRole="Kayit" ToRole="Dosya" />
+          <NavigationProperty Name="Kullanici" Relationship="Self.FK_Kayit_ToKullanici" FromRole="Kayit" ToRole="Kullanici" />
+        </EntityType>
+        <EntityType Name="Kullanici">
+          <Key>
+            <PropertyRef Name="KulId" />
+          </Key>
+          <Property Name="KulId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="KulAdSoyad" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="KulMail" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="KulSifre" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="KulDogTarihi" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Kayit" Relationship="Self.FK_Kayit_ToKullanici" FromRole="Kullanici" ToRole="Kayit" />
+        </EntityType>
+        <Association Name="FK_Kayit_ToDosya">
+          <End Role="Dosya" Type="Self.Dosya" Multiplicity="1" />
+          <End Role="Kayit" Type="Self.Kayit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Dosya">
+              <PropertyRef Name="dosyaId" />
+            </Principal>
+            <Dependent Role="Kayit">
+              <PropertyRef Name="kayitDosyaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Kayit_ToKullanici">
+          <End Role="Kullanici" Type="Self.Kullanici" Multiplicity="1" />
+          <End Role="Kayit" Type="Self.Kayit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kullanici">
+              <PropertyRef Name="KulId" />
+            </Principal>
+            <Dependent Role="Kayit">
+              <PropertyRef Name="kayitKulId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DB02Entities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Dosya" EntityType="Self.Dosya" />
+          <EntitySet Name="Kayit" EntityType="Self.Kayit" />
+          <EntitySet Name="Kullanici" EntityType="Self.Kullanici" />
+          <AssociationSet Name="FK_Kayit_ToDosya" Association="Self.FK_Kayit_ToDosya">
+            <End Role="Dosya" EntitySet="Dosya" />
+            <End Role="Kayit" EntitySet="Kayit" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Kayit_ToKullanici" Association="Self.FK_Kayit_ToKullanici">
+            <End Role="Kullanici" EntitySet="Kullanici" />
+            <End Role="Kayit" EntitySet="Kayit" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DB02ModelStoreContainer" CdmEntityContainer="DB02Entities1">
+          <EntitySetMapping Name="Dosya">
+            <EntityTypeMapping TypeName="DB02Model.Dosya">
+              <MappingFragment StoreEntitySet="Dosya">
+                <ScalarProperty Name="dosyaId" ColumnName="dosyaId" />
+                <ScalarProperty Name="dosyaAdı" ColumnName="dosyaAdı" />
+                <ScalarProperty Name="dosyaIcerigi" ColumnName="dosyaIcerigi" />
+                <ScalarProperty Name="dosyaTuru" ColumnName="dosyaTuru" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Kayit">
+            <EntityTypeMapping TypeName="DB02Model.Kayit">
+              <MappingFragment StoreEntitySet="Kayit">
+                <ScalarProperty Name="kayitId" ColumnName="kayitId" />
+                <ScalarProperty Name="kayitKulId" ColumnName="kayitKulId" />
+                <ScalarProperty Name="kayitDosyaId" ColumnName="kayitDosyaId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Kullanici">
+            <EntityTypeMapping TypeName="DB02Model.Kullanici">
+              <MappingFragment StoreEntitySet="Kullanici">
+                <ScalarProperty Name="KulId" ColumnName="KulId" />
+                <ScalarProperty Name="KulAdSoyad" ColumnName="KulAdSoyad" />
+                <ScalarProperty Name="KulMail" ColumnName="KulMail" />
+                <ScalarProperty Name="KulSifre" ColumnName="KulSifre" />
+                <ScalarProperty Name="KulDogTarihi" ColumnName="KulDogTarihi" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
